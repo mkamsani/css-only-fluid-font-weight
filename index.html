@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluid Font Weight (CSS)</title>
+
+  <!-- Begin Inter Font -->
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <style>
+    :root { font-family: Inter, sans-serif; font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */ }
+    @supports (font-variation-settings: normal) { :root { font-family: InterVariable, sans-serif; } }
+  </style>
+  <!-- End Inter Font -->
+
+  <style>
+    @property --coerce-to-number {
+      syntax: "<number>";
+      inherits: false;
+      initial-value: 0;
+    }
+
+    /*
+    ** Convert 100vw to pixels.
+    */
+    @property --100vw {
+      syntax: "<length>";
+      initial-value: 0px;
+      inherits: false;
+    }
+    :root {
+      --100vw: 100vw;
+      --px-width: tan(atan2(var(--100vw), 1px));
+    }
+
+    /*
+    ** Convert (100vw to pixels) to number.
+    */
+    :root {
+      --font-weight: calc(
+          (
+            var(--px-width)
+          )
+          * (1 - var(--coerce-to-number))
+      );
+    }
+
+    body, h1, h2, h3, h4, h5, h6, p {
+      font-weight: var(--font-weight);
+    }
+
+    /*
+    ** Not related to the implementation.
+    */
+    @layer demo {
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+
+      html {
+        block-size: 100%;
+      }
+
+      body {
+        min-block-size: 100%;
+        display: grid;
+        place-items: center;
+        place-content: center;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<h1>
+  Fluid Font Weight with @property
+</h1>
+
+<p>
+  This idea was inspired by the following articles and demonstrations:
+</p>
+
+<ul>
+  <li>
+    Temani Afif: <a href="https://css-tip.com/css-variables-range-slider/">Update CSS variables using range slider</a>
+  </li>
+  <li>
+    Jane Ori: <a href="https://dev.to/janeori/css-type-casting-to-numeric-tanatan2-scalars-582j">CSS Type Casting to Numeric: tan(atan2()) Scalars</a>
+  </li>
+  <li>
+    Mandy Michael: <a href="https://codepen.io/mandymichael/pen/oPoaEL">Fluid Font Weight with Viewport Size - Variable Fonts</a>
+  </li>
+</ul>
+
+<p>
+  Open DevTools with <code>Shift+Ctrl+I</code> so you can resize the viewport width.
+</p>
+</body>
+</html>
